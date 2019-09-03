@@ -86,14 +86,49 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./frontend/follow_toggle.js":
+/*!***********************************!*\
+  !*** ./frontend/follow_toggle.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+class FollowToggle {
+  constructor($el) {
+    this.$el = $el;
+    this.userId = $el.data("userId");
+    this.followState = $el.data("initialFollowState");
+    this.render();
+  }
+
+  render() {
+    const buttonText = this.followState === true ? "Unfollow!" : "Follow!";
+    this.$el.text(buttonText);
+  }
+}
+
+module.exports = FollowToggle;
+
+/***/ }),
+
 /***/ "./frontend/twitter.js":
 /*!*****************************!*\
   !*** ./frontend/twitter.js ***!
   \*****************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
+const FollowToggle = __webpack_require__(/*! ./follow_toggle */ "./frontend/follow_toggle.js");
 
+$(() => {
+  const $buttons = $("button");
+  $buttons.each(function(idx) {
+    console.log($buttons[idx]);
+    const $button = $($buttons[idx]);
+    new FollowToggle($button);
+    
+  });
+});
 
 /***/ })
 
