@@ -1,3 +1,5 @@
+const APIUtil = require("./api_util");
+
 class FollowToggle {
   constructor($el) {
     this.$el = $el;
@@ -12,22 +14,24 @@ class FollowToggle {
     this.$el.text(buttonText);
     console.log(this);
   }
-
+  
   handleClick() {
     const that = this;
     this.$el.on("click", (event) => {
       event.preventDefault();
-      let req = that.followState === true ? "DELETE" : "POST";
-      console.log(req);
-      $.ajax({
-        type: req,
-        url: "/users/" + that.userId.toString() + "/follow",
-        dataType: 'json',
-        success() {
-          that.followState = that.followState === true ? false : true;
-          that.render()
-        } 
-      });
+      
+      that.$el.prop("disabled", true);
+      let resp;
+      if (that.followState) {
+        resp = APIUtil.unfollowUser(that.userId);
+        that.followState = false;
+      } else {
+        resp = APIUtil.followUser(that.userId);
+        that.followState = true;
+      }
+      resp.done(that.render());
+
+      that.$el.prop("disabled", false);
       
     });
   }
