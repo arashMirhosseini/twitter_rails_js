@@ -14,7 +14,6 @@ class FollowToggle {
   render() {
     const buttonText = this.followState === true ? "Unfollow!" : "Follow!";
     this.$el.text(buttonText);
-    console.log(this);
   }
   
   handleClick() {

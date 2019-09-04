@@ -11,7 +11,6 @@ class UsersSearch {
 
   renderResults(user, options) {
     this.$ul.find("li").remove();
-    this.$ul.find("button").remove();
     const $li = $("<li></li>");
     $li.text(user);
     this.$ul.append($li);
@@ -19,6 +18,7 @@ class UsersSearch {
   }
   
   addFollowToggle($li, options) {
+    this.$ul.find("button").remove();
     const $button = $("<button></button>");
     $li.append($button);
     new FollowToggle($button, options);
