@@ -228,11 +228,19 @@ class UsersSearch {
     this.handleInput();
   }
 
-  renderResults(user) {
+  renderResults(user, options) {
     this.$ul.find("li").remove();
+    this.$ul.find("button").remove();
     const $li = $("<li></li>");
     $li.text(user);
     this.$ul.append($li);
+    this.addFollowToggle($li, options)
+  }
+  
+  addFollowToggle($li, options) {
+    const $button = $("<button></button>");
+    $li.append($button);
+    new FollowToggle($button, options);
   }
 
   handleInput() {
@@ -243,7 +251,10 @@ class UsersSearch {
       resp.then(function (users) {
         users.forEach(user => {
           const userName = user.username;
-          that.renderResults(userName);
+          that.renderResults(userName, {
+            userId: user.id,
+            followState: user.followed
+          });
         });
       });
     });
