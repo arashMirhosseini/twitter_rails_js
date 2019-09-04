@@ -115,7 +115,10 @@ const APIUtil = {
       type: action,
       url: url,
       data: data,
-      dataType: "json"
+      dataType: "json",
+      success: function (data) {
+        return data;
+      }
     });
     return resp;
   } 
@@ -218,19 +221,28 @@ class UsersSearch {
   constructor($el) {
     this.$el = $el;
     this.$input = $el.find("input");
-    this.$ul = $el.find("ul");
+    this.$ul = $el.find("ul.users");
     this.handleInput();
   }
 
-  render() {
-    
+  renderResults(user) {
+    this.$ul.find("li").remove();
+    const $li = $("<li></li>");
+    $li.text(user);
+    this.$ul.append($li);
   }
 
   handleInput() {
+    const that = this;
     this.$el.on("input", "input:text", event => {
       event.preventDefault();
       const resp = APIUtil.searchUsers(this.$input.val());
-      console.log(resp);
+      resp.then(function (users) {
+        users.forEach(user => {
+          const userName = user.username;
+          that.renderResults(userName);
+        });
+      });
     });
     
   }

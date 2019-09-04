@@ -20,7 +20,10 @@ const APIUtil = {
       type: action,
       url: url,
       data: data,
-      dataType: "json"
+      dataType: "json",
+      success: function (data) {
+        return data;
+      }
     });
     return resp;
   } 
