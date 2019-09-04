@@ -1,4 +1,5 @@
 const APIUtil = require("./api_util");
+const FollowToggle = require("./follow_toggle");
 
 class UsersSearch {
   constructor($el) {

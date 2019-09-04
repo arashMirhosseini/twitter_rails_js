@@ -139,10 +139,12 @@ module.exports = APIUtil;
 const APIUtil = __webpack_require__(/*! ./api_util */ "./frontend/api_util.js");
 
 class FollowToggle {
-  constructor($el) {
+  constructor($el, options) {
     this.$el = $el;
-    this.userId = $el.data("userId");
-    this.followState = $el.data("initialFollowState");
+    this.userId = 
+      this.$el.data("userId") || options.userId;
+    this.followState = 
+      $el.data("initialFollowState") || options.followState;
     this.render();
     this.handleClick();
   }
@@ -216,6 +218,7 @@ $(() => {
 /***/ (function(module, exports, __webpack_require__) {
 
 const APIUtil = __webpack_require__(/*! ./api_util */ "./frontend/api_util.js");
+const FollowToggle = __webpack_require__(/*! ./follow_toggle */ "./frontend/follow_toggle.js");
 
 class UsersSearch {
   constructor($el) {
