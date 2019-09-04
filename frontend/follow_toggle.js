@@ -29,7 +29,7 @@ class FollowToggle {
         resp = APIUtil.followUser(that.userId);
         that.followState = true;
       }
-      resp.done(that.render());
+      resp.then(that.render());
 
       that.$el.prop("disabled", false);
       

@@ -106,7 +106,8 @@ const APIUtil = {
 
   searchUsers: queryVal => {
     const url = "/users/search";
-    return APIUtil.makeReq("GET", url, queryVal);
+    const query = {query: queryVal};
+    return APIUtil.makeReq("GET", url, query);
   },
 
   makeReq: (action, url, data) => {
@@ -163,7 +164,7 @@ class FollowToggle {
         resp = APIUtil.followUser(that.userId);
         that.followState = true;
       }
-      resp.done(that.render());
+      resp.then(that.render());
 
       that.$el.prop("disabled", false);
       
@@ -188,7 +189,7 @@ const UsersSearch = __webpack_require__(/*! ./users_search */ "./frontend/users_
 
 $(() => {
   const $buttons = $("button");
-  const $navs = $("nav.users-search");
+  const $navs = $("div.users-search");
   $buttons.each(function(idx) {
     const $button = $($buttons[idx]);
     const fol = new FollowToggle($button);
@@ -198,7 +199,7 @@ $(() => {
     const $nav = $($navs[idx]);
     // console.log($nav.find("li"));
     const nav = new UsersSearch($nav);
-    console.log(nav);
+    // console.log(nav);
   });
 });
 
@@ -209,13 +210,29 @@ $(() => {
   !*** ./frontend/users_search.js ***!
   \**********************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+const APIUtil = __webpack_require__(/*! ./api_util */ "./frontend/api_util.js");
 
 class UsersSearch {
   constructor($el) {
     this.$el = $el;
     this.$input = $el.find("input");
     this.$ul = $el.find("ul");
+    this.handleInput();
+  }
+
+  render() {
+    
+  }
+
+  handleInput() {
+    this.$el.on("input", "input:text", event => {
+      event.preventDefault();
+      const resp = APIUtil.searchUsers(this.$input.val());
+      console.log(resp);
+    });
+    
   }
 
 }

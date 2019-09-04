@@ -11,7 +11,8 @@ const APIUtil = {
 
   searchUsers: queryVal => {
     const url = "/users/search";
-    return APIUtil.makeReq("GET", url, queryVal);
+    const query = {query: queryVal};
+    return APIUtil.makeReq("GET", url, query);
   },
 
   makeReq: (action, url, data) => {
