@@ -95,19 +95,25 @@
 
 const APIUtil = {
   followUser: id => {
-    // console.log(this);
-    return APIUtil.makeReq("POST", id);
+    const url = "/users/" + id.toString() + "/follow";
+    return APIUtil.makeReq("POST", url, {});
   },
 
   unfollowUser: id => {
-
-    return APIUtil.makeReq("DELETE", id);
+    const url = "/users/" + id.toString() + "/follow";
+    return APIUtil.makeReq("DELETE", url, {});
   },
 
-  makeReq: (action, id) => {
+  searchUsers: queryVal => {
+    const url = "/users/search";
+    return APIUtil.makeReq("GET", url, queryVal);
+  },
+
+  makeReq: (action, url, data) => {
     const resp = $.ajax({
       type: action,
-      url: "/users/" + id.toString() + "/follow",
+      url: url,
+      data: data,
       dataType: "json"
     });
     return resp;
@@ -178,16 +184,43 @@ module.exports = FollowToggle;
 /***/ (function(module, exports, __webpack_require__) {
 
 const FollowToggle = __webpack_require__(/*! ./follow_toggle */ "./frontend/follow_toggle.js");
+const UsersSearch = __webpack_require__(/*! ./users_search */ "./frontend/users_search.js");
 
 $(() => {
   const $buttons = $("button");
+  const $navs = $("nav.users-search");
   $buttons.each(function(idx) {
     const $button = $($buttons[idx]);
     const fol = new FollowToggle($button);
-    // console.log(typeof fol.userId);
-    
+  });
+  
+  $navs.each(function(idx) {
+    const $nav = $($navs[idx]);
+    // console.log($nav.find("li"));
+    const nav = new UsersSearch($nav);
+    console.log(nav);
   });
 });
+
+/***/ }),
+
+/***/ "./frontend/users_search.js":
+/*!**********************************!*\
+  !*** ./frontend/users_search.js ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+class UsersSearch {
+  constructor($el) {
+    this.$el = $el;
+    this.$input = $el.find("input");
+    this.$ul = $el.find("ul");
+  }
+
+}
+
+module.exports = UsersSearch;
 
 /***/ })
 

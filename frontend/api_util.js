@@ -1,18 +1,24 @@
 const APIUtil = {
   followUser: id => {
-    // console.log(this);
-    return APIUtil.makeReq("POST", id);
+    const url = "/users/" + id.toString() + "/follow";
+    return APIUtil.makeReq("POST", url, {});
   },
 
   unfollowUser: id => {
-
-    return APIUtil.makeReq("DELETE", id);
+    const url = "/users/" + id.toString() + "/follow";
+    return APIUtil.makeReq("DELETE", url, {});
   },
 
-  makeReq: (action, id) => {
+  searchUsers: queryVal => {
+    const url = "/users/search";
+    return APIUtil.makeReq("GET", url, queryVal);
+  },
+
+  makeReq: (action, url, data) => {
     const resp = $.ajax({
       type: action,
-      url: "/users/" + id.toString() + "/follow",
+      url: url,
+      data: data,
       dataType: "json"
     });
     return resp;
