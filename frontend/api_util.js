@@ -15,14 +15,19 @@ const APIUtil = {
     return APIUtil.makeReq("GET", url, query);
   },
 
+  createTweet: data => {
+    const url = "/tweets";
+    return APIUtil.makeReq("POST", url, data);
+  },
+
   makeReq: (action, url, data) => {
     const resp = $.ajax({
       type: action,
       url: url,
       data: data,
       dataType: "json",
-      success: function (data) {
-        return data;
+      success: function (dataResp) {
+        return dataResp;
       }
     });
     return resp;

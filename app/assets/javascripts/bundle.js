@@ -110,14 +110,19 @@ const APIUtil = {
     return APIUtil.makeReq("GET", url, query);
   },
 
+  createTweet: data => {
+    const url = "/tweets";
+    return APIUtil.makeReq("POST", url, data);
+  },
+
   makeReq: (action, url, data) => {
     const resp = $.ajax({
       type: action,
       url: url,
       data: data,
       dataType: "json",
-      success: function (data) {
-        return data;
+      success: function (dataResp) {
+        return dataResp;
       }
     });
     return resp;
@@ -181,6 +186,54 @@ module.exports = FollowToggle;
 
 /***/ }),
 
+/***/ "./frontend/tweet_compose.js":
+/*!***********************************!*\
+  !*** ./frontend/tweet_compose.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const APIUtil = __webpack_require__(/*! ./api_util */ "./frontend/api_util.js");
+
+class TweetCompose {
+  constructor() {
+    this.$form = $("form.tweet-compose");
+    this.submit();
+  }
+  
+  submit() {
+    
+    this.$form.on("submit", event => {
+      event.preventDefault();
+      const data = $(event.currentTarget).serializeJSON();
+      this.$form.find(':input').prop('disabled', true);
+      const resp = APIUtil.createTweet(data);
+      resp.then(tweet => this.handleSuccess(tweet));
+      
+      return resp;
+    });
+  }
+  
+  clearInput() {
+    this.$form.find("textarea").val("");
+    this.$form.find(':input').prop('disabled', false);
+  }
+
+
+  handleSuccess(data) {
+    this.clearInput();
+    const $tweetsUl = $(this.$form.data('tweets-ul'));
+    const $li = $("<li></li>").text(data.content);
+    $tweetsUl.prepend($li);
+    
+  }
+
+}
+
+module.exports = TweetCompose;
+
+/***/ }),
+
 /***/ "./frontend/twitter.js":
 /*!*****************************!*\
   !*** ./frontend/twitter.js ***!
@@ -190,21 +243,16 @@ module.exports = FollowToggle;
 
 const FollowToggle = __webpack_require__(/*! ./follow_toggle */ "./frontend/follow_toggle.js");
 const UsersSearch = __webpack_require__(/*! ./users_search */ "./frontend/users_search.js");
+const TweetCompose = __webpack_require__(/*! ./tweet_compose */ "./frontend/tweet_compose.js");
 
 $(() => {
-  const $buttons = $("button");
   const $navs = $("div.users-search");
-  $buttons.each(function(idx) {
-    const $button = $($buttons[idx]);
-    const fol = new FollowToggle($button);
-  });
   
   $navs.each(function(idx) {
     const $nav = $($navs[idx]);
-    // console.log($nav.find("li"));
     const nav = new UsersSearch($nav);
-    // console.log(nav);
   });
+  new TweetCompose();
 });
 
 /***/ }),
