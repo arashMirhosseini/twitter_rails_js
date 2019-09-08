@@ -6,6 +6,7 @@ class TweetCompose {
     this.$input = this.$form.find('textarea[name=tweet\\[content\\]]');
     this.$input.on('input', this.handleInput.bind(this));
     this.submit();
+    this.addMentionUser();
   }
   
   submit() {
@@ -38,6 +39,29 @@ class TweetCompose {
   handleInput(event) {
     const inputLength = this.$input.val().length;
     this.$form.find(".chars-left").text(`${140 - inputLength} characters left`);
+  }
+
+
+  addMentionUser() {
+    this.$form.find(".add-mentioned-user").on("click", event => {
+      event.preventDefault();
+      this.newUserSelect();
+    });
+  }
+
+  newUserSelect() {
+    const users = window.users;
+    const $select = $("<select></select>");
+    const $div = $("<div></div>");
+    console.log(users);
+    users.forEach(user => {
+      const $option = $("<option></option>");
+      $option.attr("value", user.id);
+      $option.text(user.username);
+      $select.append($option);
+    });
+    $div.append($select);
+    this.$form.find(".mentioned-users").append($div);
   }
 
   addTweet($li, data) {
