@@ -25,16 +25,19 @@ class TweetCompose {
   
   clearInput() {
     this.$form.find("textarea").val("");
+    this.$form.find(".mentioned-users").find('ul').empty();
     this.$form.find(':input').prop('disabled', false);
+    this.$form.find('.char-left').empty();
+
   }
 
 
   handleSuccess(data) {
-    this.clearInput();
     const $tweetsUl = $(this.$form.data('tweets-ul'));
     const $li = $("<li></li>");
     this.addTweet($li, data);
     $tweetsUl.prepend($li);
+    this.clearInput();
   }
 
   handleInput(event) {
@@ -47,10 +50,7 @@ class TweetCompose {
     const that = this;
     this.$form.find(".add-mentioned-user").on("click", event => {
       event.preventDefault();
-      // console.log(event.currentTarget);
       this.newUserSelect();
-      // console.log(this.$form[0]);
-      // console.log(this.$form.find("button.remove-mentioned-user")[0]);
       that.removeMentionedUser();
 
     });
@@ -96,6 +96,8 @@ class TweetCompose {
     );
 
   }
+
+  
 }
 
 module.exports = TweetCompose;

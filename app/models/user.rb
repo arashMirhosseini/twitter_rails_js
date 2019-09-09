@@ -59,8 +59,9 @@ class User < ApplicationRecord
       .where('tweets.user_id = :id OR follows.follower_id = :id', id: self.id)
       .order('tweets.created_at DESC')
       .distinct
-
-    # TODO: How can we use limit/max_created_at here??
+      
+    @tweets = @tweets.limit(limit) if limit
+    @tweets = @tweets.where('tweets.created_at < ?', max_created_at) if max_created_at
 
     @tweets
   end
