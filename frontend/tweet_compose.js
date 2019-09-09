@@ -7,6 +7,7 @@ class TweetCompose {
     this.$input.on('input', this.handleInput.bind(this));
     this.submit();
     this.addMentionUser();
+    
   }
   
   submit() {
@@ -38,22 +39,27 @@ class TweetCompose {
 
   handleInput(event) {
     const inputLength = this.$input.val().length;
-    this.$form.find(".chars-left").text(`${140 - inputLength} characters left`);
+    this.$form.find(".char-left").text(`${140 - inputLength} characters left`);
   }
 
 
   addMentionUser() {
+    const that = this;
     this.$form.find(".add-mentioned-user").on("click", event => {
       event.preventDefault();
+      // console.log(event.currentTarget);
       this.newUserSelect();
+      // console.log(this.$form[0]);
+      // console.log(this.$form.find("button.remove-mentioned-user")[0]);
+      that.removeMentionedUser();
+
     });
   }
 
   newUserSelect() {
     const users = window.users;
-    const $select = $("<select></select>");
+    const $select = $("<select name='tweet[mentioned_user_ids][]'></select>");
     const $div = $("<div></div>");
-    console.log(users);
     users.forEach(user => {
       const $option = $("<option></option>");
       $option.attr("value", user.id);
@@ -61,6 +67,8 @@ class TweetCompose {
       $select.append($option);
     });
     $div.append($select);
+    const $a = $("<button class='remove-mentioned-user'>Remove</button>");
+    $div.append($a);
     this.$form.find(".mentioned-users").append($div);
   }
 
@@ -77,6 +85,17 @@ class TweetCompose {
 
   }
 
+  removeMentionedUser() {
+    const $ulMentionedUser = this.$form.find("button.remove-mentioned-user");
+    $ulMentionedUser.on(
+      'click',
+      event => {
+        event.preventDefault();
+        $(event.currentTarget).parent().remove();
+      }
+    );
+
+  }
 }
 
 module.exports = TweetCompose;
