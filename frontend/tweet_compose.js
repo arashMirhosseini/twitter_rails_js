@@ -1,8 +1,8 @@
 const APIUtil = require("./api_util");
 
 class TweetCompose {
-  constructor() {
-    this.$form = $("form.tweet-compose");
+  constructor(el) {
+    this.$form = $(el);
     this.$input = this.$form.find('textarea[name=tweet\\[content\\]]');
     this.$input.on('input', this.handleInput.bind(this));
     this.submit();

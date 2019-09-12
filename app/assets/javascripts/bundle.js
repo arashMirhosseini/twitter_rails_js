@@ -144,12 +144,12 @@ module.exports = APIUtil;
 const APIUtil = __webpack_require__(/*! ./api_util */ "./frontend/api_util.js");
 
 class FollowToggle {
-  constructor($el, options) {
-    this.$el = $el;
+  constructor(el, options) {
+    this.$el = $(el);
     this.userId = 
       this.$el.data("userId") || options.userId;
     this.followState = 
-      $el.data("initialFollowState") || options.followState;
+      this.$el.data("initialFollowState") || options.followState;
     this.render();
     this.handleClick();
   }
@@ -186,6 +186,35 @@ module.exports = FollowToggle;
 
 /***/ }),
 
+/***/ "./frontend/infinite_tweets.js":
+/*!*************************************!*\
+  !*** ./frontend/infinite_tweets.js ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const APIUtil = __webpack_require__(/*! ./api_util */ "./frontend/api_util.js");
+
+class InfiniteTweets {
+  constructor(el) {
+    this.$el = $(el);
+    this.maxCreatedAt = null;
+  }
+
+  fetchTweets() {
+    
+  }
+
+  insertTweets() {
+
+  }
+
+}
+
+module.exports = InfiniteTweets;
+
+/***/ }),
+
 /***/ "./frontend/tweet_compose.js":
 /*!***********************************!*\
   !*** ./frontend/tweet_compose.js ***!
@@ -196,8 +225,8 @@ module.exports = FollowToggle;
 const APIUtil = __webpack_require__(/*! ./api_util */ "./frontend/api_util.js");
 
 class TweetCompose {
-  constructor() {
-    this.$form = $("form.tweet-compose");
+  constructor(el) {
+    this.$form = $(el);
     this.$input = this.$form.find('textarea[name=tweet\\[content\\]]');
     this.$input.on('input', this.handleInput.bind(this));
     this.submit();
@@ -309,15 +338,14 @@ module.exports = TweetCompose;
 const FollowToggle = __webpack_require__(/*! ./follow_toggle */ "./frontend/follow_toggle.js");
 const UsersSearch = __webpack_require__(/*! ./users_search */ "./frontend/users_search.js");
 const TweetCompose = __webpack_require__(/*! ./tweet_compose */ "./frontend/tweet_compose.js");
+const InfiniteTweets = __webpack_require__(/*! ./infinite_tweets */ "./frontend/infinite_tweets.js");
 
 $(() => {
-  const $navs = $("div.users-search");
-  
-  $navs.each(function(idx) {
-    const $nav = $($navs[idx]);
-    const nav = new UsersSearch($nav);
-  });
-  new TweetCompose();
+  $('div.infinite-tweets').each((i, tweet) => new InfiniteTweets(tweet));
+  $('form.tweet-compose').each((i, form) => new TweetCompose(form));
+  $('.users-search').each((i, search) => new UsersSearch(search));
+  $('button.follow-toggle').each((i, btn) => new FollowToggle(btn, {}));
+
 });
 
 /***/ }),
@@ -333,10 +361,10 @@ const APIUtil = __webpack_require__(/*! ./api_util */ "./frontend/api_util.js");
 const FollowToggle = __webpack_require__(/*! ./follow_toggle */ "./frontend/follow_toggle.js");
 
 class UsersSearch {
-  constructor($el) {
-    this.$el = $el;
-    this.$input = $el.find("input");
-    this.$ul = $el.find("ul.users");
+  constructor(el) {
+    this.$el = $(el);
+    this.$input = this.$el.find("input");
+    this.$ul = this.$el.find("ul.users");
     this.handleInput();
   }
 

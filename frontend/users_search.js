@@ -2,10 +2,10 @@ const APIUtil = require("./api_util");
 const FollowToggle = require("./follow_toggle");
 
 class UsersSearch {
-  constructor($el) {
-    this.$el = $el;
-    this.$input = $el.find("input");
-    this.$ul = $el.find("ul.users");
+  constructor(el) {
+    this.$el = $(el);
+    this.$input = this.$el.find("input");
+    this.$ul = this.$el.find("ul.users");
     this.handleInput();
   }
 

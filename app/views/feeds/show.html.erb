@@ -1,6 +1,6 @@
 <h1>Welcome <%= current_user.username %>!</h1>
 
-<b>Your Feed!</b>
+<h2 class='page-header'>Your Feed!</h2>
 
 <%= render 'tweets/form', tweets_ul: '#feed' %>
 
@@ -15,5 +15,6 @@
       <% end %>
     </ul>
   <% end %>
-
+  
+  <button class="fetch-more">Fetch more tweets!</button>
 </div>
