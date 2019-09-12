@@ -20,6 +20,10 @@ const APIUtil = {
     return APIUtil.makeReq("POST", url, data);
   },
 
+  feedReq: () => {
+    return APIUtil.makeReq("GET", "/feed", null);
+  },
+
   makeReq: (action, url, data) => {
     const resp = $.ajax({
       type: action,
@@ -31,7 +35,20 @@ const APIUtil = {
       }
     });
     return resp;
-  } 
+  },
+  
+  addTweet: ($li, data) => {
+    const $div = $("<div></div>").addClass("tweet");
+    $li.append($div);
+    const $h3 = $("<h3></h3>").addClass("tweeter");
+    const $aUser = $("<a></a>").text(data.user.username);
+    $aUser.attr("href", "");
+    const $p = $("<p></p>").text(data.content);
+    $h3.append($aUser);
+    $div.append($h3);
+    $div.append($p);
+
+  }
 
 };
 

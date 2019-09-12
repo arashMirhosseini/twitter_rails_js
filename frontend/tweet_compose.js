@@ -35,7 +35,7 @@ class TweetCompose {
   handleSuccess(data) {
     const $tweetsUl = $(this.$form.data('tweets-ul'));
     const $li = $("<li></li>");
-    this.addTweet($li, data);
+    APIUtil.addTweet($li, data);
     $tweetsUl.prepend($li);
     this.clearInput();
   }
@@ -72,18 +72,18 @@ class TweetCompose {
     this.$form.find(".mentioned-users").append($div);
   }
 
-  addTweet($li, data) {
-    const $div = $("<div></div>").addClass("tweet");
-    $li.append($div);
-    const $h3 = $("<h3></h3>").addClass("tweeter");
-    const $aUser = $("<a></a>").text(data.user.username);
-    $aUser.attr("href", "");
-    const $p = $("<p></p>").text(data.content);
-    $h3.append($aUser);
-    $div.append($h3);
-    $div.append($p);
+  // addTweet($li, data) {
+  //   const $div = $("<div></div>").addClass("tweet");
+  //   $li.append($div);
+  //   const $h3 = $("<h3></h3>").addClass("tweeter");
+  //   const $aUser = $("<a></a>").text(data.user.username);
+  //   $aUser.attr("href", "");
+  //   const $p = $("<p></p>").text(data.content);
+  //   $h3.append($aUser);
+  //   $div.append($h3);
+  //   $div.append($p);
 
-  }
+  // }
 
   removeMentionedUser() {
     const $ulMentionedUser = this.$form.find("button.remove-mentioned-user");
