@@ -217,11 +217,20 @@ class InfiniteTweets {
     this.$el = $(el);
     this.maxCreatedAt = null;
     this.fetchTweets();
+    this.fetchMoreTweets()
   }
 
   fetchTweets() {
     const resp = APIUtil.feedReq();
     resp.then(tweets => this.insertTweets(tweets));
+  }
+
+  fetchMoreTweets() {
+    const $button = $(this.$el.find("button.fetch-more"));
+    $button.on("click", event => {
+      event.preventDefault();
+      this.fetchTweets();
+    });
   }
 
   insertTweets(data) {
