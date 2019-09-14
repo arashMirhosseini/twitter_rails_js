@@ -9,8 +9,14 @@ class InfiniteTweets {
   }
 
   fetchTweets() {
-    const resp = APIUtil.feedReq();
-    resp.then(tweets => this.insertTweets(tweets));
+    
+    if (this.maxCreatedAt !== null) {
+      const resp = APIUtil.feedReq({max_created_at: this.maxCreatedAt});      
+      resp.then(tweets => this.insertTweets(tweets));
+    } else {
+      const resp = APIUtil.feedReq();
+      resp.then(tweets => this.insertTweets(tweets));
+    }
   }
 
   fetchMoreTweets() {
@@ -24,11 +30,15 @@ class InfiniteTweets {
   insertTweets(data) {
     const $tweetsUl = $(this.$el.find('ul.tweets'));
     data.forEach(tweet => {
+      // console.log(data);
       const $li = $("<li></li>");
       APIUtil.addTweet($li, tweet);
       $tweetsUl.append($li);
     });
-
+    const len = data.length;
+    if (len !== 0) {
+      this.maxCreatedAt = data[len - 1].created_at;
+    }
   }
 
 }

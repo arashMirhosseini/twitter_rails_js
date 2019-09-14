@@ -20,8 +20,8 @@ const APIUtil = {
     return APIUtil.makeReq("POST", url, data);
   },
 
-  feedReq: () => {
-    return APIUtil.makeReq("GET", "/feed", null);
+  feedReq: query => {
+    return APIUtil.makeReq("GET", "/feed", query);
   },
 
   makeReq: (action, url, data) => {
