@@ -30,7 +30,6 @@ class InfiniteTweets {
   insertTweets(data) {
     const $tweetsUl = $(this.$el.find('ul.tweets'));
     data.forEach(tweet => {
-      // console.log(data);
       const $li = $("<li></li>");
       APIUtil.addTweet($li, tweet);
       $tweetsUl.append($li);

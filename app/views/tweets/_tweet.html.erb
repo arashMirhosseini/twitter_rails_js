@@ -1,11 +1,17 @@
-<%= tweet.content %>
--- <a href="<%= user_url(tweet.user.id) %>"><%= tweet.user.username %></a>
--- <%= tweet.created_at %>
+<div class='tweet'>
+  <h3 class='tweeter'>
+    <a href='<%= user_url(tweet.user) %>'>
+      @<%= tweet.user.username %>
+    </a>
+  </h3>
 
-<% if tweet.mentioned_users.length > 0 %>
-  <ul>
-    <% tweet.mentioned_users.each do |mentioned_user| %>
-      <li><a href="<%= user_url(mentioned_user) %>"><%= mentioned_user.username %></a></li>
+  <p><%= tweet.content %></p>
+
+  <ul>Mentions
+    <% tweet.mentions.each do |mention| %>
+      <li class='tweetee'>
+        <a href='<%= user_url(mention.user) %>'>@<%= mention.user.username %></a>
+      </li>
     <% end %>
   </ul>
-<% end %>
+</div>
