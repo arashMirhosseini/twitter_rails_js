@@ -250,6 +250,14 @@ class InfiniteTweets {
     if (len !== 0) {
       this.maxCreatedAt = data[len - 1].created_at;
     }
+    if (len < 20) {
+      this.hideButton();
+    }
+  }
+
+  hideButton() {
+    $(this.$el.find('button.fetch-more')).replaceWith("<b>No more tweets!</b>");
+
   }
 
 }
